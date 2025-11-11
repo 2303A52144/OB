@@ -5,325 +5,248 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Organizational Conflict at Amazon</title>
 <style>
-    body {
-        margin: 0;
-        padding: 0;
-        font-family: "Segoe UI", sans-serif;
-        background: linear-gradient(135deg, #e6e6fa, #4b0082, #dda0dd, #6a5acd);
-        background-size: 400% 400%;
-        animation: gradientShift 15s ease infinite;
-        color: #fff;
-        overflow: hidden;
-    }
-    @keyframes gradientShift {
-        0% {background-position: 0% 50%;}
-        50% {background-position: 100% 50%;}
-        100% {background-position: 0% 50%;}
-    }
-    .container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        width: 100vw;
-        overflow: hidden;
-    }
-    .slide {
-        display: none;
-        width: 85%;
-        max-width: 1100px;
-        height: 85%;
-        background: rgba(255,255,255,0.2);
-        color: #000;
-        border-radius: 20px;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-        padding: 40px;
-        text-align: center;
-        backdrop-filter: blur(6px);
-        position: relative;
-        opacity: 0;
-        transform: translateY(20px);
-        transition: opacity 0.8s ease, transform 0.8s ease;
-    }
-    .slide.active {
-        display: block;
-        opacity: 1;
-        transform: translateY(0);
-    }
-    .slide h1, .slide h2 {
-        color: #4b0082;
-        text-shadow: 0 0 10px rgba(75,0,130,0.4);
-        margin-bottom: 25px;
-    }
-    .slide ul {
-        text-align: left;
-        list-style: disc;
-        font-size: 1.6em; /* Increased text size */
-        padding-left: 60px;
-        width: 80%;
-        margin: 0 auto;
-    }
-    .slide li {
-        opacity: 0;
-        transform: translateX(-10px);
-        animation: fadeIn 0.6s ease forwards;
-        animation-delay: var(--delay);
-        margin-bottom: 20px;
-    }
-    @keyframes fadeIn {
-        to {
-            opacity: 1;
-            transform: translateX(0);
-        }
-    }
-    .icon {
-        position: absolute;
-        right: 40px;
-        top: 40px;
-        font-size: 80px;
-        opacity: 0.3;
-    }
-    .start-slide h1 {
-        font-size: 3em;
-        margin-top: 200px;
-    }
-    .start-slide p {
-        font-size: 1.7em;
-        color: #f8f8ff;
-    }
-    .navigation {
-        position: absolute;
-        bottom: 30px;
-        width: 100%;
-        text-align: center;
-    }
-    .nav-btn {
-        background: linear-gradient(135deg, #e6e6fa, #4b0082);
-        color: white;
-        border: none;
-        padding: 12px 28px;
-        margin: 0 15px;
-        border-radius: 25px;
-        cursor: pointer;
-        font-size: 1.2em;
-        box-shadow: 0 5px 15px rgba(75,0,130,0.3);
-        transition: 0.3s;
-    }
-    .nav-btn:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 25px rgba(75,0,130,0.5);
-    }
-    .end-slide ul {
-        list-style: none;
-        font-size: 1.3em;
-        padding-left: 0;
-        color: #222;
-    }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #4B0082, #7B68EE);
+    color: white;
+    overflow: hidden;
+  }
+  .slide {
+    display: none;
+    height: 100vh;
+    width: 100%;
+    text-align: left;
+    padding: 60px 100px;
+    animation: fadeIn 1s ease-in-out;
+  }
+  .active { display: block; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  h1, h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    font-weight: 700;
+  }
+  h1 { font-size: 60px; margin-top: 150px; }
+  h2 { font-size: 46px; }
+  ul {
+    list-style-type: disc;
+    padding-left: 60px;
+    font-size: 28px;
+    line-height: 1.6;
+  }
+  li { margin-bottom: 20px; opacity: 0; animation: fadeInText 1s forwards; }
+  @keyframes fadeInText {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  .nav-buttons {
+    position: absolute;
+    bottom: 40px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 80px;
+  }
+  button {
+    background: rgba(255,255,255,0.2);
+    border: none;
+    color: white;
+    padding: 15px 40px;
+    border-radius: 50px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  button:hover { background: rgba(255,255,255,0.4); }
+
+  /* Thank You Slide */
+  .team {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px 100px;
+    font-size: 26px;
+    margin-top: 60px;
+    margin-left: 200px;
+  }
+  .thankyou h2 { font-size: 54px; margin-bottom: 30px; }
 </style>
 </head>
 <body>
-<div class="container">
 
-    <!-- Slide 1 -->
-    <div class="slide start-slide active" id="slide-0">
-        <h1>Organizational Conflict at Amazon</h1>
-        <p><em>Exploring Leadership, Culture, and Resolution in a Global Giant</em></p>
-    </div>
+<div class="slide active">
+  <h1>Organizational Conflict at Amazon</h1>
+  <h2>Exploring Leadership, Culture, and Resolution in a Global Giant</h2>
+</div>
 
-    <!-- Slide 2 -->
-    <div class="slide" id="slide-1">
-        <h2>Company Background</h2>
-        <div class="icon">🏢</div>
-        <ul>
-            <li style="--delay:0.2s">Founded in 1994 by Jeff Bezos as an online bookstore.</li>
-            <li style="--delay:0.4s">Grew into a global leader in e-commerce, cloud computing, and digital services.</li>
-            <li style="--delay:0.6s">Known for customer obsession, innovation, and high operational standards.</li>
-            <li style="--delay:0.8s">Leadership encourages “Disagree and Commit” — debate, then act together.</li>
-            <li style="--delay:1.0s">Manages over 1.5 million employees worldwide with complex logistics systems.</li>
-        </ul>
-    </div>
+<div class="slide">
+  <h2>Company Background</h2>
+  <ul>
+    <li>Founded by Jeff Bezos in 1994 as an online bookstore.</li>
+    <li>Expanded into a global e-commerce and cloud computing giant.</li>
+    <li>Employs over 1.5 million people globally.</li>
+    <li>Known for innovation, customer obsession, and operational efficiency.</li>
+    <li>However, faces ongoing internal and external workplace challenges.</li>
+  </ul>
+</div>
 
-    <!-- Slide 3 -->
-    <div class="slide" id="slide-2">
-        <h2>Type of Conflict</h2>
-        <div class="icon">⚖️</div>
-        <ul>
-            <li style="--delay:0.2s">Primarily organizational — between leadership and employees.</li>
-            <li style="--delay:0.4s">Includes interpersonal and intergroup disputes.</li>
-            <li style="--delay:0.6s">Arises during structural changes and team reorganizations.</li>
-            <li style="--delay:0.8s">Driven by goal differences and communication gaps.</li>
-            <li style="--delay:1.0s">Reflects challenges of managing a massive distributed workforce.</li>
-        </ul>
-    </div>
+<div class="slide">
+  <h2>Type of Conflict</h2>
+  <ul>
+    <li>Organizational conflict includes labor, interpersonal, and cultural disputes.</li>
+    <li>Amazon has experienced both vertical and horizontal conflicts.</li>
+    <li>Most common conflicts arise between management and warehouse workers.</li>
+    <li>Issues involve working conditions, unionization, and pay disputes.</li>
+    <li>Some conflicts occur due to strict productivity monitoring systems.</li>
+  </ul>
+</div>
 
-    <!-- Slide 4 -->
-    <div class="slide" id="slide-3">
-        <h2>Labor and Leadership Disagreement</h2>
-        <div class="icon">💼</div>
-        <ul>
-            <li style="--delay:0.2s">Leaders prioritize efficiency, profit, and innovation.</li>
-            <li style="--delay:0.4s">Employees seek fair pay, safety, and respect.</li>
-            <li style="--delay:0.6s">Layoffs and automation increased job insecurity.</li>
-            <li style="--delay:0.8s">Unrealistic performance metrics created pressure.</li>
-            <li style="--delay:1.0s">Power imbalance fueled resentment and mistrust.</li>
-        </ul>
-    </div>
+<div class="slide">
+  <h2>Source of Conflict – Labor and Leadership Disagreement</h2>
+  <ul>
+    <li>Leadership focused on efficiency led to high employee pressure.</li>
+    <li>Workers protested strict surveillance and unrealistic targets.</li>
+    <li>Disagreement over union rights and labor representation.</li>
+    <li>Conflict intensified during the COVID-19 pandemic.</li>
+    <li>Amazon’s resistance to unionization created widespread tension.</li>
+  </ul>
+</div>
 
-    <!-- Slide 5 -->
-    <div class="slide" id="slide-4">
-        <h2>Cultural and Communication Clashes</h2>
-        <div class="icon">💬</div>
-        <ul>
-            <li style="--delay:0.2s">Amazon’s “Have Backbone” culture encourages debate but increases stress.</li>
-            <li style="--delay:0.4s">Limited empathy in communication created emotional distance.</li>
-            <li style="--delay:0.6s">COVID-19 exposed weak internal communication channels.</li>
-            <li style="--delay:0.8s">Workers felt unheard during crisis management phases.</li>
-            <li style="--delay:1.0s">Management tone perceived as overly corporate and cold.</li>
-        </ul>
-    </div>
+<div class="slide">
+  <h2>Source of Conflict – Cultural and Communication Clashes</h2>
+  <ul>
+    <li>Diverse workforce leads to misunderstandings and miscommunication.</li>
+    <li>Top-down communication model leaves little room for feedback.</li>
+    <li>Differences in work ethics and values among teams.</li>
+    <li>Pressure-driven environment causes friction among employees.</li>
+    <li>Global scale of operations amplifies cross-cultural issues.</li>
+  </ul>
+</div>
 
-    <!-- Slide 6 -->
-    <div class="slide" id="slide-5">
-        <h2>Employee Perspective and Union Movements</h2>
-        <div class="icon">✊</div>
-        <ul>
-            <li style="--delay:0.2s">Employees began organizing for fair treatment.</li>
-            <li style="--delay:0.4s">The first U.S. Amazon union formed in Staten Island (2022).</li>
-            <li style="--delay:0.6s">Demands included better pay, safety, and rest breaks.</li>
-            <li style="--delay:0.8s">Unionization symbolized pushback against top-down control.</li>
-            <li style="--delay:1.0s">Leadership resisted, fearing loss of authority and flexibility.</li>
-        </ul>
-    </div>
+<div class="slide">
+  <h2>Employee Perspective and Union Movements</h2>
+  <ul>
+    <li>Workers reported stress and burnout from heavy workloads.</li>
+    <li>Employee unions formed to demand better working conditions.</li>
+    <li>Protests occurred in multiple countries including the U.S. and Germany.</li>
+    <li>Union drives in warehouses challenged corporate authority.</li>
+    <li>Highlighted the growing gap between management and workforce.</li>
+  </ul>
+</div>
 
-    <!-- Slide 7 -->
-    <div class="slide" id="slide-6">
-        <h2>Impact on Employees and Organization</h2>
-        <div class="icon">📉</div>
-        <ul>
-            <li style="--delay:0.2s">Employee morale dropped significantly.</li>
-            <li style="--delay:0.4s">High turnover increased recruitment costs.</li>
-            <li style="--delay:0.6s">Public image took a hit due to media criticism.</li>
-            <li style="--delay:0.8s">Operational disruptions occurred due to strikes.</li>
-            <li style="--delay:1.0s">Team trust and cohesion declined organization-wide.</li>
-        </ul>
-    </div>
+<div class="slide">
+  <h2>Impact on Employees and Organization</h2>
+  <ul>
+    <li>Decreased employee morale and job satisfaction.</li>
+    <li>Increased turnover rates in warehouse departments.</li>
+    <li>Negative media coverage affected Amazon’s brand reputation.</li>
+    <li>Operational disruptions due to strikes and protests.</li>
+    <li>Forced leadership to reassess internal HR and labor policies.</li>
+  </ul>
+</div>
 
-    <!-- Slide 8 -->
-    <div class="slide" id="slide-7">
-        <h2>Resolution Strategies Used by Amazon</h2>
-        <div class="icon">🧩</div>
-        <ul>
-            <li style="--delay:0.2s">Initially ignored or punished protests.</li>
-            <li style="--delay:0.4s">Later adopted negotiation and compromise tactics.</li>
-            <li style="--delay:0.6s">Raised wages and improved safety measures.</li>
-            <li style="--delay:0.8s">Used PR campaigns to highlight positive changes.</li>
-            <li style="--delay:1.0s">Encouraged internal discussions via feedback systems.</li>
-        </ul>
-    </div>
+<div class="slide">
+  <h2>Resolution Strategies Used by Amazon</h2>
+  <ul>
+    <li>Introduced open communication and feedback mechanisms.</li>
+    <li>Implemented employee wellness and training programs.</li>
+    <li>Adjusted compensation structures to reduce dissatisfaction.</li>
+    <li>Invested in leadership and empathy-based management training.</li>
+    <li>Increased transparency regarding workplace policies.</li>
+  </ul>
+</div>
 
-    <!-- Slide 9 -->
-    <div class="slide" id="slide-8">
-        <h2>Effectiveness of Resolution</h2>
-        <div class="icon">📊</div>
-        <ul>
-            <li style="--delay:0.2s">Partially effective — wages up but morale still low.</li>
-            <li style="--delay:0.4s">Reactive rather than proactive conflict handling.</li>
-            <li style="--delay:0.6s">Distrust continues between workers and leaders.</li>
-            <li style="--delay:0.8s">Long-term cultural change remains limited.</li>
-            <li style="--delay:1.0s">Sustainability of improvements uncertain.</li>
-        </ul>
-    </div>
+<div class="slide">
+  <h2>Effectiveness of Resolution</h2>
+  <ul>
+    <li>Improvements seen in employee relations over time.</li>
+    <li>Still ongoing issues with union recognition and trust.</li>
+    <li>Leadership’s response seen as reactive rather than proactive.</li>
+    <li>Positive shift in communication and conflict resolution practices.</li>
+    <li>Mixed results in balancing profit with employee well-being.</li>
+  </ul>
+</div>
 
-    <!-- Slide 10 -->
-    <div class="slide" id="slide-9">
-        <h2>Lessons Learned</h2>
-        <div class="icon">📚</div>
-        <ul>
-            <li style="--delay:0.2s">Constructive conflict can fuel innovation.</li>
-            <li style="--delay:0.4s">Unchecked conflict breeds toxicity and burnout.</li>
-            <li style="--delay:0.6s">Empathy is key to sustainable leadership.</li>
-            <li style="--delay:0.8s">Transparency builds trust and accountability.</li>
-            <li style="--delay:1.0s">Balance between efficiency and employee welfare is vital.</li>
-        </ul>
-    </div>
+<div class="slide">
+  <h2>Lessons Learned</h2>
+  <ul>
+    <li>Employee satisfaction is key to long-term productivity.</li>
+    <li>Communication should be two-way and inclusive.</li>
+    <li>Workplace culture must prioritize mental and physical well-being.</li>
+    <li>Leadership empathy can prevent large-scale conflicts.</li>
+    <li>Union relations should be viewed as opportunities, not threats.</li>
+  </ul>
+</div>
 
-    <!-- Slide 11 -->
-    <div class="slide" id="slide-10">
-        <h2>Recommendations for Future Conflict Management</h2>
-        <div class="icon">🤝</div>
-        <ul>
-            <li style="--delay:0.2s">Create open, two-way communication channels.</li>
-            <li style="--delay:0.4s">Emphasize collaboration over competition.</li>
-            <li style="--delay:0.6s">Train leaders in emotional intelligence and mediation.</li>
-            <li style="--delay:0.8s">Encourage fairness and psychological safety.</li>
-            <li style="--delay:1.0s">Regularly audit employee satisfaction and ethics.</li>
-        </ul>
-    </div>
+<div class="slide">
+  <h2>Recommendations for Future Conflict Management</h2>
+  <ul>
+    <li>Foster a participative and open communication culture.</li>
+    <li>Establish joint management-union committees.</li>
+    <li>Provide continuous leadership training in emotional intelligence.</li>
+    <li>Enhance employee recognition and reward programs.</li>
+    <li>Regularly assess workplace morale through surveys and feedback.</li>
+  </ul>
+</div>
 
-    <!-- Slide 12 -->
-    <div class="slide" id="slide-11">
-        <h2>Conclusion</h2>
-        <div class="icon">🏁</div>
-        <ul>
-            <li style="--delay:0.2s">Amazon’s conflicts reveal the tension between ambition and empathy.</li>
-            <li style="--delay:0.4s">Growth must align with ethical leadership and transparency.</li>
-            <li style="--delay:0.6s">Healthy communication fosters resilience and innovation.</li>
-            <li style="--delay:0.8s">Balanced leadership ensures sustainable organizational success.</li>
-            <li style="--delay:1.0s">Lessons extend beyond Amazon — vital for all modern enterprises.</li>
-        </ul>
-    </div>
+<div class="slide">
+  <h2>Conclusion</h2>
+  <ul>
+    <li>Amazon’s conflicts reflect challenges in balancing efficiency and empathy.</li>
+    <li>Effective conflict resolution promotes innovation and retention.</li>
+    <li>Continuous dialogue between management and employees is vital.</li>
+    <li>Leadership must adapt to evolving workplace expectations.</li>
+    <li>Strong culture of respect can transform conflict into collaboration.</li>
+  </ul>
+</div>
 
-    <!-- Slide 13 -->
-    <div class="slide end-slide" id="slide-12">
-        <h1>Thank You</h1>
-        <h3>Team Members</h3>
-        <ul>
-            <li>P LALITH PRAKASH - 2303A52012</li>
-            <li>Ravula Vidya Sri - 2303A52014</li>
-            <li>Shishir Bhagath - 2303A52164</li>
-            <li>N. Lasya Priya - 2303A52129</li>
-            <li>R Keerthisree - 2303A52046</li>
-            <li>Sree Kumara - 2303A52227</li>
-            <li>Mokshitha - 2303A52122</li>
-            <li>T Akshaya - 2303A52017</li>
-            <li>A Sathwik - 2303A52158</li>
-            <li>K Likitha - 2303A52144</li>
-            <li>M Sriram - 2303A52165</li>
-        </ul>
+<div class="slide thankyou">
+  <h2>Thank You</h2>
+  <div class="team">
+    <div>
+      <p>P. Lalith Prakash - 2303A52012</p>
+      <p>Ravula Vidya Sri - 2303A52014</p>
+      <p>Shishir Bhagath - 2303A52164</p>
+      <p>N. Lasya Priya - 2303A52129</p>
+      <p>R. Keerthisree - 2303A52046</p>
+      <p>Sreekumara - 2303A52227</p>
     </div>
+    <div>
+      <p>Mokshitha - 2303A52122</p>
+      <p>T. Akshaya - 2303A52017</p>
+      <p>A. Sathwik - 2303A52158</p>
+      <p>K. Likitha - 2303A52144</p>
+      <p>M. Sriram - 2303A52165</p>
+    </div>
+  </div>
+</div>
 
-    <div class="navigation">
-        <button class="nav-btn" id="prev">Previous</button>
-        <button class="nav-btn" id="next">Next</button>
-    </div>
+<div class="nav-buttons">
+  <button onclick="prevSlide()">⟵ Previous</button>
+  <button onclick="nextSlide()">Next ⟶</button>
 </div>
 
 <script>
-let currentSlide = 0;
-const slides = document.querySelectorAll(".slide");
-const totalSlides = slides.length;
+let current = 0;
+const slides = document.querySelectorAll('.slide');
 
-function showSlide(index) {
-    slides.forEach(slide => slide.classList.remove("active"));
-    slides[index].classList.add("active");
+function showSlide(n) {
+  slides[current].classList.remove('active');
+  current = (n + slides.length) % slides.length;
+  slides[current].classList.add('active');
 }
-document.getElementById("next").addEventListener("click", () => {
-    currentSlide = (currentSlide + 1) % totalSlides;
-    showSlide(currentSlide);
-});
-document.getElementById("prev").addEventListener("click", () => {
-    currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
-    showSlide(currentSlide);
-});
-document.addEventListener("keydown", e => {
-    if (e.key === "ArrowRight") {
-        currentSlide = (currentSlide + 1) % totalSlides;
-        showSlide(currentSlide);
-    } else if (e.key === "ArrowLeft") {
-        currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
-        showSlide(currentSlide);
-    }
+
+function nextSlide() { showSlide(current + 1); }
+function prevSlide() { showSlide(current - 1); }
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') nextSlide();
+  if (e.key === 'ArrowLeft') prevSlide();
 });
 </script>
+
 </body>
 </html>
